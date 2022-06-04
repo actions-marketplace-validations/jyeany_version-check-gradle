@@ -1,0 +1,8 @@
+name: 'Version Check Gradle'
+description: 'Check if there is already a package published with the current version'
+outputs:
+  changed:
+    description: 'True if the current package version has not been published'
+runs:
+  using: 'node16'
+  main: 'dist/main.js'
