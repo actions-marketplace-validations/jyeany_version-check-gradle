@@ -6,7 +6,7 @@ console.log('main.js run');
 try {
   core.setOutput("changed", true);
 
-  const version = extractVersion();
+  const version = await extractVersion();
   console.log(`version in main: ${version}`);
   core.setOutput("version", version);
 

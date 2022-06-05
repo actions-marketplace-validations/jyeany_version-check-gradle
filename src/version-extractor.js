@@ -1,18 +1,17 @@
 import { exec } from "child_process";
 
-export default function extractVersion() {
-  exec("./gradlew properties | grep 'version:'", (error, stdout, stderr) => {
-    if (error) {
-      console.log(error)
-      throw error;
-    }
-    if (stderr) {
-      console.log(stderr)
-      throw stderr;
-    }
-    console.log(stdout)
-    const versionNumber = stdout.split(':')[1].trim();
-    console.log(`Version Number: ${versionNumber}`)
-    return versionNumber;
-  });
+export default async function extractVersion() {
+  const cmd = "./gradlew properties | grep 'version:'";
+  return new Promise((resolve, reject) => {
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+      }
+      if (stderr) {
+        reject(stderr);
+      }
+      const versionNumber = stdout.split(':')[1].trim();
+      resolve(versionNumber);
+    });
+  })
 }
