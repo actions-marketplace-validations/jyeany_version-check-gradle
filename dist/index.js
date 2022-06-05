@@ -1947,6 +1947,14 @@ exports.debug = debug; // for test
 
 /***/ }),
 
+/***/ 801:
+/***/ ((module) => {
+
+module.exports = eval("require")("version-extractor");
+
+
+/***/ }),
+
 /***/ 491:
 /***/ ((module) => {
 
@@ -2078,24 +2086,15 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(440);
 const { exec } = __nccwpck_require__(81);
+const versionExtractor = __nccwpck_require__(801);
 // const github = require('@actions/github');
 
 console.log('main.js run');
 try {
   core.setOutput("changed", true);
-  core.setOutput("version", "any");
 
-  exec("./gradlew properties", (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-  });
+  const version = versionExtractor()
+  core.setOutput("version", version);
 
 } catch (error) {
   core.setFailed(error.message);
