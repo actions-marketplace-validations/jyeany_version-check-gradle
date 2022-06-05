@@ -1,4 +1,4 @@
-import {exec} from "child_process";
+import { exec } from "child_process";
 
 export default function extractVersion() {
   exec("./gradlew properties | grep 'version:'", (error, stdout, stderr) => {
