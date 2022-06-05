@@ -2059,11 +2059,14 @@ const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(
 function extractVersion() {
   (0,external_child_process_namespaceObject.exec)("./gradlew properties | grep 'version:'", (error, stdout, stderr) => {
     if (error) {
+      console.log(error)
       throw error;
     }
     if (stderr) {
+      console.log(stderr)
       throw stderr;
     }
+    console.log(stdout)
     return stdout.split(':')[1].trim()
   });
 }
