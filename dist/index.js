@@ -2067,7 +2067,9 @@ function extractVersion() {
       throw stderr;
     }
     console.log(stdout)
-    return stdout.split(':')[1].trim()
+    const versionNumber = stdout.split(':')[1].trim();
+    console.log(`Version Number: ${versionNumber}`)
+    return versionNumber;
   });
 }
 ;// CONCATENATED MODULE: ./src/main.js
@@ -2079,7 +2081,8 @@ console.log('main.js run');
 try {
   core.setOutput("changed", true);
 
-  const version = extractVersion()
+  const version = extractVersion();
+  console.log(`version in main: ${version}`);
   core.setOutput("version", version);
 
 } catch (error) {

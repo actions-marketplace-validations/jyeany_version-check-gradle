@@ -11,6 +11,8 @@ export default function extractVersion() {
       throw stderr;
     }
     console.log(stdout)
-    return stdout.split(':')[1].trim()
+    const versionNumber = stdout.split(':')[1].trim();
+    console.log(`Version Number: ${versionNumber}`)
+    return versionNumber;
   });
 }
