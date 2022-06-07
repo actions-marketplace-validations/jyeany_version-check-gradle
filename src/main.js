@@ -14,7 +14,8 @@ try {
 
   const orgName = core.getInput('organization');
   const accessToken = core.getInput('access-token');
-  const found = versionClient.isVersionPresent(packageName, version, orgName, accessToken);
+  const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
+  console.log(`found in main: ${found}`);
   const changed = !found;
   core.setOutput("changed", changed);
   core.setOutput("version", version);

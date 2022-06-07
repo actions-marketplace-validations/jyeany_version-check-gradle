@@ -8131,7 +8131,8 @@ try {
 
   const orgName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('organization');
   const accessToken = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('access-token');
-  const found = versionClient.isVersionPresent(packageName, version, orgName, accessToken);
+  const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
+  console.log(`found in main: ${found}`);
   const changed = !found;
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("changed", changed);
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("version", version);
