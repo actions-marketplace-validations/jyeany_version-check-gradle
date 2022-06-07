@@ -4,6 +4,8 @@ This action checks to see if a package with the current version has already been
 
 ## Inputs
 
+`organization`: optional parameter of the org name if using for a package owned by an organization
+`token`: personal access token with package read access for the repository
 
 ## Outputs
 
@@ -16,6 +18,9 @@ This action checks to see if a package with the current version has already been
       - name: Check if Package Version Published
         id: version_check
         uses: jyeany/version-check-gradle@0.0.7
+        with:
+          organization: 'my-org' # optional parameter
+          token: ${{ secrets.MY_ACCESS_TOKEN }}
 
       - name: Publish Package
         if: steps.version_check.outputs.changed

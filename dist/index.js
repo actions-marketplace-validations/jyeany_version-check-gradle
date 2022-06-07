@@ -2046,7 +2046,7 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 ;// CONCATENATED MODULE: external "child_process"
 const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
-;// CONCATENATED MODULE: ./src/version-extractor.js
+;// CONCATENATED MODULE: ./src/property-extractor.js
 
 
 async function extractVersion() {
