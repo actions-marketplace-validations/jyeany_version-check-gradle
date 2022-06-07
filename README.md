@@ -5,7 +5,7 @@ This action checks to see if a package with the current version has already been
 ## Inputs
 
 `organization`: optional parameter of the org name if using for a package owned by an organization
-`token`: personal access token with package read access for the repository
+`access-token`: personal access token with package read access for the repository
 
 ## Outputs
 

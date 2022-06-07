@@ -19,7 +19,7 @@ try {
   console.log(`version in main: ${version}`);
 
   const orgName = core.getInput('organization');
-  const accessToken = core.getInput('token');
+  const accessToken = core.getInput('access-token');
   const found = versionClient.isVersionPresent(packageName, version, orgName, accessToken);
   const changed = !found;
   core.setOutput("changed", changed);
