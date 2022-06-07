@@ -10,8 +10,8 @@ export default async function extractProperty(propName) {
       if (stderr) {
         reject(stderr);
       }
-      const versionNumber = stdout.split(':')[1].trim();
-      resolve(versionNumber);
+      const propertyValue = stdout.split(':')[1].trim();
+      resolve(propertyValue);
     });
   })
 }
