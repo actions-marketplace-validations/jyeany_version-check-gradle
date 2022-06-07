@@ -1,0 +1,42 @@
+@pat=<personal-access-token>
+
+GET https://maven.pkg.github.com/jyeany/version-check-gradle-consumer/com/example/version-check-gradle-consumer
+Authorization: Bearer {{pat}}
+Accept: application/vnd.github.v3+json
+
+###
+
+GET https://api.github.com/users/jyeany/packages?package_type=maven
+Authorization: Bearer {{pat}}
+Accept: application/vnd.github.v3+json
+
+###
+
+GET https://api.github.com/user/packages?package_type=maven
+Authorization: Bearer {{pat}}
+Accept: application/vnd.github.v3+json
+
+### 
+
+# /orgs/{org}/packages/{package_type}/{package_name}/versions
+GET https://api.github.com/users/jyeany/packages/maven/version-check-gradle-consumer/versions
+Authorization: Bearer {{pat}}
+Accept: application/vnd.github.v3+json
+
+###
+
+GET https://api.github.com/user/packages/maven/com.example.version-check-gradle-consumer
+Authorization: Bearer {{pat}}
+Accept: application/vnd.github.v3+json
+
+###
+
+GET https://api.github.com/user/packages/maven/com.example.version-check-gradle-consumer/versions
+Authorization: Bearer {{pat}}
+Accept: application/vnd.github.v3+json
+
+###
+
+GET https://api.github.com/user/packages/maven/com.example.version-check-gradle-consumer/versions/20378898
+Authorization: Bearer {{pat}}
+Accept: application/vnd.github.v3+json
