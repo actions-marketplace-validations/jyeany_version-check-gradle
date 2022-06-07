@@ -8130,7 +8130,7 @@ try {
   const projectName = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('name');
   console.log("project name:");
   console.log(projectName);
-  const packageName = group + projectName;
+  const packageName = group + '.' + projectName;
   console.log("package name:");
   console.log(packageName);
   console.log(`version in main: ${version}`);

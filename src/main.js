@@ -13,7 +13,7 @@ try {
   const projectName = await extractProperty('name');
   console.log("project name:");
   console.log(projectName);
-  const packageName = group + projectName;
+  const packageName = group + '.' + projectName;
   console.log("package name:");
   console.log(packageName);
   console.log(`version in main: ${version}`);
