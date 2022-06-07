@@ -1,5 +1,7 @@
 # Check Version Gradle 
 
+## _Work in progress, in pre-release state_  
+
 This action checks to see if a package with the current version has already been published.
 
 ## Inputs
