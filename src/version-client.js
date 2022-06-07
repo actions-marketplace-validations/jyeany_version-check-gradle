@@ -39,10 +39,12 @@ export default class VersionClient {
     for (let i = 0; i < packageVersions.length; i++) {
       const name = packageVersions[i].name;
       if (name === version) {
+        console.log(`matched ${name} and ${version}`);
         found = true;
         break;
       }
     }
+    console.log(`version found: ${found}`);
     return found;
   }
 

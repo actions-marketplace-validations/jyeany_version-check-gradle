@@ -1,5 +1,12 @@
 name: 'Version Check Gradle'
 description: 'Check if there is already a package published with the current version'
+inputs:
+  access-token:
+    required: true
+    description: 'Personal access token with package read access'
+  organization:
+    required: false
+    description: 'If the package belongs to an organization, the org name'
 outputs:
   changed:
     description: 'True if the current package version has not been published'

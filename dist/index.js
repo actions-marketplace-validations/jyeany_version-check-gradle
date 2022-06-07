@@ -8125,14 +8125,8 @@ try {
   const versionClient = new _version_client_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z();
   const version = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('version');
   const group = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('group');
-  console.log("group:");
-  console.log(group);
   const projectName = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('name');
-  console.log("project name:");
-  console.log(projectName);
   const packageName = group + '.' + projectName;
-  console.log("package name:");
-  console.log(packageName);
   console.log(`version in main: ${version}`);
 
   const orgName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('organization');
@@ -8230,10 +8224,12 @@ class VersionClient {
     for (let i = 0; i < packageVersions.length; i++) {
       const name = packageVersions[i].name;
       if (name === version) {
+        console.log(`matched ${name} and ${version}`);
         found = true;
         break;
       }
     }
+    console.log(`version found: ${found}`);
     return found;
   }
 
