@@ -20,7 +20,7 @@ This action checks to see if a package with the current version has already been
         uses: jyeany/version-check-gradle@0.0.7
         with:
           organization: 'my-org' # optional parameter
-          token: ${{ secrets.MY_ACCESS_TOKEN }}
+          access-token: ${{ secrets.MY_ACCESS_TOKEN }}
 
       - name: Publish Package
         if: steps.version_check.outputs.changed
