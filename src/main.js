@@ -5,8 +5,6 @@ import VersionClient from "./version-client.js";
 
 console.log('main.js run');
 try {
-  const orgName = core.getInput('organization');
-  const accessToken = core.getInput('token');
   const versionClient = new VersionClient();
   const version = await extractProperty('version');
   const group = await extractProperty('group');
@@ -20,6 +18,8 @@ try {
   console.log(packageName);
   console.log(`version in main: ${version}`);
 
+  const orgName = core.getInput('organization');
+  const accessToken = core.getInput('token');
   const found = versionClient.isVersionPresent(packageName, version, orgName, accessToken);
   const changed = !found;
   core.setOutput("changed", changed);
