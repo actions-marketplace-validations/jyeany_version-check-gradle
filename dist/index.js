@@ -8120,27 +8120,22 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 // const github = require('@actions/github');
 
-console.log('main.js run');
 try {
   const versionClient = new _version_client_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z();
   const version = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('version');
   const group = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('group');
   const projectName = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('archivesBaseName');
   const packageName = group + '.' + projectName;
-  console.log(`version in main: ${version}`);
-
   const orgName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('organization');
   const accessToken = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('access-token');
   const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
-  console.log(`found in main: ${found}`);
   const changed = !found;
+
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("changed", changed);
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("version", version);
-
 } catch (error) {
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
 }
-
 
 __webpack_handle_async_dependencies__();
 }, 1);
@@ -8195,30 +8190,25 @@ async function extractProperty(propName) {
 
 function execPowershell(resolve, reject, cmd) {
   (0,external_child_process_namespaceObject.exec)(cmd, {'shell':'powershell.exe'}, (error, stdout, stderr) => {
-    if (error) {
-      reject(error);
-    }
-    if (stderr) {
-      reject(stderr);
-    }
-    console.log(`powershell output: ${stdout}`);
-    const propertyValue = stdout.split(':')[1].trim();
-    resolve(propertyValue);
+    execCallback(resolve, reject, error, stdout, stderr);
   });
 }
 
 function execLinux(resolve, reject, cmd) {
   (0,external_child_process_namespaceObject.exec)(cmd, (error, stdout, stderr) => {
-    if (error) {
-      reject(error);
-    }
-    if (stderr) {
-      reject(stderr);
-    }
-    console.log(`linux output: ${stdout}`);
-    const propertyValue = stdout.split(':')[1].trim();
-    resolve(propertyValue);
+    execCallback(resolve, reject, error, stdout, stderr);
   });
+}
+
+function execCallback(resolve, reject, error, stdout, stderr) {
+  if (error) {
+    reject(error);
+  }
+  if (stderr) {
+    reject(stderr);
+  }
+  const propertyValue = stdout.split(':')[1].trim();
+  resolve(propertyValue);
 }
 
 
