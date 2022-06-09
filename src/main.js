@@ -1,7 +1,6 @@
 import core from '@actions/core';
 import extractProperty from "./property-extractor.js";
 import VersionClient from "./version-client.js";
-// const github = require('@actions/github');
 
 try {
   const versionClient = new VersionClient();
@@ -12,10 +11,19 @@ try {
   const orgName = core.getInput('organization');
   const accessToken = core.getInput('access-token');
   const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
+  printFoundOutput(found);
   const changed = !found;
 
   core.setOutput("changed", changed);
   core.setOutput("version", version);
 } catch (error) {
   core.setFailed(error.message);
+}
+
+function printFoundOutput(found, version) {
+  if (found) {
+    console.log(`Package with version ${version} is already published`);
+  } else {
+    console.log(`No package with version ${version} found`);
+  }
 }

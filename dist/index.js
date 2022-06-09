@@ -8118,7 +8118,6 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-// const github = require('@actions/github');
 
 try {
   const versionClient = new _version_client_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z();
@@ -8129,12 +8128,21 @@ try {
   const orgName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('organization');
   const accessToken = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('access-token');
   const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
+  printFoundOutput(found);
   const changed = !found;
 
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("changed", changed);
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("version", version);
 } catch (error) {
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
+}
+
+function printFoundOutput(found, version) {
+  if (found) {
+    console.log(`Package with version ${version} is already published`);
+  } else {
+    console.log(`No package with version ${version} found`);
+  }
 }
 
 __webpack_handle_async_dependencies__();
