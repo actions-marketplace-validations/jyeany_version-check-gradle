@@ -5,6 +5,7 @@ const cmdBuilder = new PropertyCmdBuilder();
 
 export default async function extractProperty(propName) {
   const cmd = cmdBuilder.buildCmd(propName, cmdBuilder.isWindowsFn);
+  console.log(`command: ${cmd}`);
   return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
       if (error) {

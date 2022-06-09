@@ -8183,6 +8183,7 @@ const cmdBuilder = new PropertyCmdBuilder();
 
 async function extractProperty(propName) {
   const cmd = cmdBuilder.buildCmd(propName, cmdBuilder.isWindowsFn);
+  console.log(`command: ${cmd}`);
   return new Promise((resolve, reject) => {
     (0,external_child_process_namespaceObject.exec)(cmd, (error, stdout, stderr) => {
       if (error) {
