@@ -1,7 +1,10 @@
 import { exec } from "child_process";
+import PropertyCmdBuilder from "./property-cmd-builder.js";
+
+const cmdBuilder = new PropertyCmdBuilder();
 
 export default async function extractProperty(propName) {
-  const cmd = `./gradlew properties | grep '${propName}:'`;
+  const cmd = cmdBuilder.buildCmd(propName, cmdBuilder.isWindowsFn);
   return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
       if (error) {

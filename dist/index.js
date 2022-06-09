@@ -8113,7 +8113,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__) => {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7440);
-/* harmony import */ var _property_extractor_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3667);
+/* harmony import */ var _property_extractor_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3025);
 /* harmony import */ var _version_client_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(9888);
 
 
@@ -8147,7 +8147,7 @@ __webpack_handle_async_dependencies__();
 
 /***/ }),
 
-/***/ 3667:
+/***/ 3025:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -8158,11 +8158,31 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 ;// CONCATENATED MODULE: external "child_process"
 const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
+;// CONCATENATED MODULE: ./src/property-cmd-builder.js
+class PropertyCmdBuilder {
+
+  buildCmd(propName, isWindowsFn) {
+    const isWindows = isWindowsFn();
+    if (isWindows) {
+      return `./gradlew properties | Select-String '${propName}:'`;
+    } else {
+      return `./gradlew properties | grep '${propName}:'`;
+    }
+  }
+
+  isWindowsFn() {
+    return process.platform === 'win32';
+  }
+
+}
 ;// CONCATENATED MODULE: ./src/property-extractor.js
 
 
+
+const cmdBuilder = new PropertyCmdBuilder();
+
 async function extractProperty(propName) {
-  const cmd = `./gradlew properties | grep '${propName}:'`;
+  const cmd = cmdBuilder.buildCmd(propName, cmdBuilder.isWindowsFn);
   return new Promise((resolve, reject) => {
     (0,external_child_process_namespaceObject.exec)(cmd, (error, stdout, stderr) => {
       if (error) {
