@@ -17,28 +17,23 @@ export default async function extractProperty(propName) {
 
 function execPowershell(resolve, reject, cmd) {
   exec(cmd, {'shell':'powershell.exe'}, (error, stdout, stderr) => {
-    if (error) {
-      reject(error);
-    }
-    if (stderr) {
-      reject(stderr);
-    }
-    console.log(`powershell output: ${stdout}`);
-    const propertyValue = stdout.split(':')[1].trim();
-    resolve(propertyValue);
+    execCallback(resolve, reject, error, stdout, stderr);
   });
 }
 
 function execLinux(resolve, reject, cmd) {
   exec(cmd, (error, stdout, stderr) => {
-    if (error) {
-      reject(error);
-    }
-    if (stderr) {
-      reject(stderr);
-    }
-    console.log(`linux output: ${stdout}`);
-    const propertyValue = stdout.split(':')[1].trim();
-    resolve(propertyValue);
+    execCallback(resolve, reject, error, stdout, stderr);
   });
+}
+
+function execCallback(resolve, reject, error, stdout, stderr) {
+  if (error) {
+    reject(error);
+  }
+  if (stderr) {
+    reject(stderr);
+  }
+  const propertyValue = stdout.split(':')[1].trim();
+  resolve(propertyValue);
 }
