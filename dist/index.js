@@ -8113,41 +8113,44 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__) => {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7440);
-/* harmony import */ var _property_extractor_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3667);
+/* harmony import */ var _property_extractor_js__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3025);
 /* harmony import */ var _version_client_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(9888);
 
 
 
-// const github = require('@actions/github');
 
-console.log('main.js run');
 try {
   const versionClient = new _version_client_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z();
   const version = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('version');
   const group = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('group');
-  const projectName = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('name');
+  const projectName = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('archivesBaseName');
   const packageName = group + '.' + projectName;
-  console.log(`version in main: ${version}`);
-
   const orgName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('organization');
   const accessToken = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('access-token');
   const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
-  console.log(`found in main: ${found}`);
+  printFoundOutput(found);
   const changed = !found;
+
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("changed", changed);
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("version", version);
-
 } catch (error) {
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
 }
 
+function printFoundOutput(found, version) {
+  if (found) {
+    console.log(`Package with version ${version} is already published`);
+  } else {
+    console.log(`No package with version ${version} found`);
+  }
+}
 
 __webpack_handle_async_dependencies__();
 }, 1);
 
 /***/ }),
 
-/***/ 3667:
+/***/ 3025:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 
@@ -8158,24 +8161,64 @@ __nccwpck_require__.d(__webpack_exports__, {
 
 ;// CONCATENATED MODULE: external "child_process"
 const external_child_process_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("child_process");
+;// CONCATENATED MODULE: ./src/property-cmd-builder.js
+class PropertyCmdBuilder {
+
+  buildCmd(propName, isWindowsFn) {
+    const isWindows = isWindowsFn();
+    if (isWindows) {
+      return `./gradlew properties | Select-String '${propName}:'`;
+    } else {
+      return `./gradlew properties | grep '${propName}:'`;
+    }
+  }
+
+  isWindowsFn() {
+    return process.platform === 'win32';
+  }
+
+}
 ;// CONCATENATED MODULE: ./src/property-extractor.js
 
 
+
+const cmdBuilder = new PropertyCmdBuilder();
+
 async function extractProperty(propName) {
-  const cmd = `./gradlew properties | grep '${propName}:'`;
+  const cmd = cmdBuilder.buildCmd(propName, cmdBuilder.isWindowsFn);
+  const isWindows = cmdBuilder.isWindowsFn();
   return new Promise((resolve, reject) => {
-    (0,external_child_process_namespaceObject.exec)(cmd, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-      }
-      if (stderr) {
-        reject(stderr);
-      }
-      const propertyValue = stdout.split(':')[1].trim();
-      resolve(propertyValue);
-    });
-  })
+    if (isWindows) {
+     execPowershell(resolve, reject, cmd);
+    } else {
+     execLinux(resolve, reject, cmd);
+    }
+  });
 }
+
+function execPowershell(resolve, reject, cmd) {
+  (0,external_child_process_namespaceObject.exec)(cmd, {'shell':'powershell.exe'}, (error, stdout, stderr) => {
+    execCallback(resolve, reject, error, stdout, stderr);
+  });
+}
+
+function execLinux(resolve, reject, cmd) {
+  (0,external_child_process_namespaceObject.exec)(cmd, (error, stdout, stderr) => {
+    execCallback(resolve, reject, error, stdout, stderr);
+  });
+}
+
+function execCallback(resolve, reject, error, stdout, stderr) {
+  if (error) {
+    reject(error);
+  }
+  if (stderr) {
+    reject(stderr);
+  }
+  const propertyValue = stdout.split(':')[1].trim();
+  resolve(propertyValue);
+}
+
 
 /***/ }),
 
@@ -8225,12 +8268,10 @@ class VersionClient {
     for (let i = 0; i < packageVersions.length; i++) {
       const name = packageVersions[i].name;
       if (name === version) {
-        console.log(`matched ${name} and ${version}`);
         found = true;
         break;
       }
     }
-    console.log(`version found: ${found}`);
     return found;
   }
 

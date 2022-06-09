@@ -2,7 +2,8 @@
   "type": "module",
   "scripts": {
     "build": "ncc build src/main.js --license licenses.txt",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
   "jest": {
     "verbose": true
