@@ -8191,10 +8191,11 @@ async function extractProperty(propName) {
       if (stderr) {
         reject(stderr);
       }
+      console.log(`exec output: ${stdout}`);
       const propertyValue = stdout.split(':')[1].trim();
       resolve(propertyValue);
     });
-  })
+  });
 }
 
 /***/ }),
