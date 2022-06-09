@@ -8125,7 +8125,7 @@ try {
   const versionClient = new _version_client_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z();
   const version = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('version');
   const group = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('group');
-  const projectName = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('name');
+  const projectName = await (0,_property_extractor_js__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)('archivesBaseName');
   const packageName = group + '.' + projectName;
   console.log(`version in main: ${version}`);
 

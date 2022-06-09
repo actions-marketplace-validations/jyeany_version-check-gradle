@@ -8,7 +8,7 @@ try {
   const versionClient = new VersionClient();
   const version = await extractProperty('version');
   const group = await extractProperty('group');
-  const projectName = await extractProperty('name');
+  const projectName = await extractProperty('archivesBaseName');
   const packageName = group + '.' + projectName;
   console.log(`version in main: ${version}`);
 
