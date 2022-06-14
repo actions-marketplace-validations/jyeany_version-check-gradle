@@ -1,12 +1,12 @@
 # Check Version Gradle 
 
-## _Work in progress, in pre-release state_  
+## Overview 
 
 This action checks to see if a package with the current version has already been published.
 
 ## Inputs
 
-`organization`: optional parameter of the org name if using for a package owned by an organization
+`organization`: optional parameter of the org name if using for a package owned by an organization  
 `access-token`: personal access token with package read access for the repository
 
 ## Outputs
