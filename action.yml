@@ -1,6 +1,7 @@
 name: 'Version Check Gradle'
 description: 'Check if there is already a package published with the current version'
-icon: chevrons-up
+branding:
+  icon: chevrons-up
 inputs:
   access-token:
     required: true
