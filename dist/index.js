@@ -8220,11 +8220,11 @@ function execCallback(resolve, reject, error, stdout, stderr, cmd) {
     reject(msg);
   }
   const outParts = stdout.split(':');
-  if (outParts.length < 2) {
+  if (outParts.length < 2 || !outParts[1]) {
     const msg = `Value not set for property found with: ${cmd}`;
     reject(msg);
   }
-  const propertyValue = stdout.split(':')[1].trim();
+  const propertyValue = outParts[1].trim();
   resolve(propertyValue);
 }
 
