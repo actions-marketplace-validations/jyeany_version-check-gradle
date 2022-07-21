@@ -19,7 +19,7 @@ This action checks to see if a package with the current version has already been
 ```yaml
       - name: Check if Package Version Published
         id: version_check
-        uses: jyeany/version-check-gradle@1.0.2
+        uses: jyeany/version-check-gradle@1.0.4
         with:
           organization: 'my-org' # optional parameter
           access-token: ${{ secrets.MY_ACCESS_TOKEN }}
