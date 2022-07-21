@@ -8198,24 +8198,33 @@ async function extractProperty(propName) {
 
 function execPowershell(resolve, reject, cmd) {
   (0,external_child_process_namespaceObject.exec)(cmd, {'shell':'powershell.exe'}, (error, stdout, stderr) => {
-    execCallback(resolve, reject, error, stdout, stderr);
+    execCallback(resolve, reject, error, stdout, stderr, cmd);
   });
 }
 
 function execLinux(resolve, reject, cmd) {
   (0,external_child_process_namespaceObject.exec)(cmd, (error, stdout, stderr) => {
-    execCallback(resolve, reject, error, stdout, stderr);
+    execCallback(resolve, reject, error, stdout, stderr, cmd);
   });
 }
 
-function execCallback(resolve, reject, error, stdout, stderr) {
+function execCallback(resolve, reject, error, stdout, stderr, cmd) {
   if (error) {
     reject(error);
   }
   if (stderr) {
     reject(stderr);
   }
-  const propertyValue = stdout.split(':')[1].trim();
+  if (!stdout) {
+    const msg = `No results found with: ${cmd}`;
+    reject(msg);
+  }
+  const outParts = stdout.split(':');
+  if (outParts.length < 2 || outParts[1] === undefined || !outParts[1] instanceof String) {
+    const msg = `Value not set for property found with: ${cmd}`;
+    reject(msg);
+  }
+  const propertyValue = outParts[1].trim();
   resolve(propertyValue);
 }
 
@@ -8243,24 +8252,35 @@ class VersionClient {
 
   async findVersionForOrganization(packageName, version, orgName, accessToken) {
     const reqUrl = `https://api.github.com/orgs/${orgName}/packages/maven/${packageName}/versions`;
-    const res = await axios__WEBPACK_IMPORTED_MODULE_0__.get(reqUrl, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      });
-    return this.checkIfVersionIn(version, res.data);
+    try {
+      const res = await this.makeRequest(reqUrl, accessToken);
+      return this.checkIfVersionIn(version, res.data);
+    } catch (err) {
+      return this.statusCheck(err.response.status);
+    }
   }
 
   async findVersionForUser(packageName, version, accessToken) {
     const reqUrl = `https://api.github.com/users/jyeany/packages/maven/${packageName}/versions`;
-    const res = await axios__WEBPACK_IMPORTED_MODULE_0__.get(reqUrl, {
+    try {
+      const res = await this.makeRequest(reqUrl, accessToken);
+      return this.checkIfVersionIn(version, res.data);
+    } catch (err) {
+      return this.statusCheck(err.response.status);
+    }
+  }
+
+  async makeRequest(reqUrl, accessToken) {
+    return axios__WEBPACK_IMPORTED_MODULE_0__.get(reqUrl, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Accept': 'application/vnd.github.v3+json'
         }
       });
-    return this.checkIfVersionIn(version, res.data);
+  }
+
+  async statusCheck(status) {
+    return status !== 404;
   }
 
   checkIfVersionIn(version, packageVersions) {
