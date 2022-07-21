@@ -38,7 +38,6 @@ function execCallback(resolve, reject, error, stdout, stderr, cmd) {
     const msg = `No results found with: ${cmd}`;
     reject(msg);
   }
-  console.log(stdout);
   const outParts = stdout.split(':');
   if (outParts.length < 2 || outParts[1] === undefined || !outParts[1] instanceof String) {
     const msg = `Value not set for property found with: ${cmd}`;
