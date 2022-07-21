@@ -43,11 +43,6 @@ function execCallback(resolve, reject, error, stdout, stderr, cmd) {
     const msg = `Value not set for property found with: ${cmd}`;
     reject(msg);
   }
-  let propertyValue = "";
-  try {
-    propertyValue = outParts[1].trim();
-  } catch (ex) {
-    console.log(`Error trimming second part of: ${stdout}`);
-  }
+  const propertyValue = outParts[1].trim();
   resolve(propertyValue);
 }
