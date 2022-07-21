@@ -8243,10 +8243,15 @@ function execCallback(resolve, reject, error, stdout, stderr, cmd) {
 class VersionClient {
 
   async isVersionPresent(packageName, version, orgName, accessToken) {
-    if (orgName) {
-      return this.findVersionForOrganization(packageName, version, orgName, accessToken);
-    } else {
-      return this.findVersionForUser(packageName, version, accessToken);
+    try {
+      if (orgName) {
+        return this.findVersionForOrganization(packageName, version, orgName, accessToken);
+      } else {
+        return this.findVersionForUser(packageName, version, accessToken);
+      }
+    } catch (ex) {
+      console.log(ex);
+      return false;
     }
   }
 
@@ -8258,9 +8263,6 @@ class VersionClient {
           'Accept': 'application/vnd.github.v3+json'
         }
       });
-    if (res.status === 404) {
-      return false;
-    }
     return this.checkIfVersionIn(version, res.data);
   }
 
@@ -8272,9 +8274,6 @@ class VersionClient {
           'Accept': 'application/vnd.github.v3+json'
         }
       });
-    if (res.status === 404) {
-      return false;
-    }
     return this.checkIfVersionIn(version, res.data);
   }
 
