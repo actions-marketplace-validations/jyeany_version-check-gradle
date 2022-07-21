@@ -8256,8 +8256,7 @@ class VersionClient {
       const res = await this.makeRequest(reqUrl, accessToken);
       return this.checkIfVersionIn(version, res.data);
     } catch (err) {
-      console.log(`status: ${err.response.status}`);
-      return true;
+      return this.statusCheck(err.response.status);
     }
   }
 
@@ -8267,8 +8266,7 @@ class VersionClient {
       const res = await this.makeRequest(reqUrl, accessToken);
       return this.checkIfVersionIn(version, res.data);
     } catch (err) {
-      console.log(`status: ${err.response.status}`);
-      return true;
+      return this.statusCheck(err.response.status);
     }
   }
 
@@ -8279,6 +8277,10 @@ class VersionClient {
           'Accept': 'application/vnd.github.v3+json'
         }
       });
+  }
+
+  async statusCheck(status) {
+    return status !== 404;
   }
 
   checkIfVersionIn(version, packageVersions) {
