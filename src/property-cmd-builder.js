@@ -5,7 +5,7 @@ export default class PropertyCmdBuilder {
     if (isWindows) {
       return `./gradlew properties | Select-String '${propName}:'`;
     } else {
-      return `./gradlew properties | grep '${propName}:'`;
+      return `./gradlew properties | grep -e '^${propName}:*'`;
     }
   }
 

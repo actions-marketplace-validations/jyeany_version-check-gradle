@@ -8128,7 +8128,7 @@ try {
   const orgName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('organization');
   const accessToken = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('access-token');
   const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
-  printFoundOutput(found);
+  printFoundOutput(found, version);
   const changed = !found;
 
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput("changed", changed);
@@ -8169,7 +8169,7 @@ class PropertyCmdBuilder {
     if (isWindows) {
       return `./gradlew properties | Select-String '${propName}:'`;
     } else {
-      return `./gradlew properties | grep '${propName}:'`;
+      return `./gradlew properties | grep -e '^${propName}:*'`;
     }
   }
 

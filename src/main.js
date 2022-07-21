@@ -11,7 +11,7 @@ try {
   const orgName = core.getInput('organization');
   const accessToken = core.getInput('access-token');
   const found = await versionClient.isVersionPresent(packageName, version, orgName, accessToken);
-  printFoundOutput(found);
+  printFoundOutput(found, version);
   const changed = !found;
 
   core.setOutput("changed", changed);
