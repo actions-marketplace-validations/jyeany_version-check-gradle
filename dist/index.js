@@ -8258,6 +8258,9 @@ class VersionClient {
           'Accept': 'application/vnd.github.v3+json'
         }
       });
+    if (res.status === 404) {
+      return false;
+    }
     return this.checkIfVersionIn(version, res.data);
   }
 
@@ -8269,6 +8272,9 @@ class VersionClient {
           'Accept': 'application/vnd.github.v3+json'
         }
       });
+    if (res.status === 404) {
+      return false;
+    }
     return this.checkIfVersionIn(version, res.data);
   }
 
