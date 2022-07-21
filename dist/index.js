@@ -8198,22 +8198,31 @@ async function extractProperty(propName) {
 
 function execPowershell(resolve, reject, cmd) {
   (0,external_child_process_namespaceObject.exec)(cmd, {'shell':'powershell.exe'}, (error, stdout, stderr) => {
-    execCallback(resolve, reject, error, stdout, stderr);
+    execCallback(resolve, reject, error, stdout, stderr, cmd);
   });
 }
 
 function execLinux(resolve, reject, cmd) {
   (0,external_child_process_namespaceObject.exec)(cmd, (error, stdout, stderr) => {
-    execCallback(resolve, reject, error, stdout, stderr);
+    execCallback(resolve, reject, error, stdout, stderr, cmd);
   });
 }
 
-function execCallback(resolve, reject, error, stdout, stderr) {
+function execCallback(resolve, reject, error, stdout, stderr, cmd) {
   if (error) {
     reject(error);
   }
   if (stderr) {
     reject(stderr);
+  }
+  if (!stdout) {
+    const msg = `No results found with: ${cmd}`;
+    reject(msg);
+  }
+  const outParts = stdout.split(':');
+  if (outParts.length < 2) {
+    const msg = `Value not set for property found with: ${cmd}`;
+    reject(msg);
   }
   const propertyValue = stdout.split(':')[1].trim();
   resolve(propertyValue);
